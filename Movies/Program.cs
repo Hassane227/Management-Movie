@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Movies.Infrastructure;
 using Movies.Application;
 using Movies.Presentation.Modules;
+using Movies.Presentation.Handlers;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -15,6 +16,7 @@ builder.Services.AddDbContext<MoviesDbContext>(options =>
   b => b.MigrationsAssembly("Movies.Infrastructure")
   ));
 builder.Services.AddApplication();
+builder.Services.AddExceptionHandler<ExceptionHandler>();
 
 
 var app = builder.Build();
@@ -25,7 +27,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseExceptionHandler(_ => { });
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

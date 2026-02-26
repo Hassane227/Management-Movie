@@ -1,5 +1,7 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Movies.Contracts.Exceptions;
+using Movies.Domain.Entities;
 using Movies.Infrastructure;
 using System;
 using System.Collections.Generic;
@@ -24,10 +26,10 @@ namespace Movies.Application.commands.Movies.deleteMovie
 
             if (movie == null)
             {
-                throw new Exception("Movie not found");
-                
+                throw new NotFoundException($"{nameof(Movie)} with {nameof(Movie.Id)}: {nameof(request.id)}" + $"was not found in database");
+
             }
-             _moviesDbContext.Movies.RemoveRange(movie);
+            _moviesDbContext.Movies.RemoveRange(movie);
             await _moviesDbContext.SaveChangesAsync(cancellationToken);
 
             return Unit.Value;

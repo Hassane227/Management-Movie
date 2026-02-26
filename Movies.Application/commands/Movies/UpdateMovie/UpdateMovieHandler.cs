@@ -1,5 +1,7 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Movies.Contracts.Exceptions;
+using Movies.Domain.Entities;
 using Movies.Infrastructure;
 using System;
 using System.Collections.Generic;
@@ -25,11 +27,11 @@ namespace Movies.Application.commands.Movies.UpdateMovie
 
             if (movie == null)
             {
-                
-                     throw new Exception($"Movie with id {request.id} not found.");  
+
+                throw new NotFoundException($"{nameof(Movie)} with {nameof(Movie.Id)}: {nameof(request.id)}" + $"was not found in database");
             }
 
-                movie.Title = request.Title;
+            movie.Title = request.Title;
                 movie.Description = request.Description;
                 movie.Category = request.Category;
                  _moviesDbContext.Movies.Update(movie);

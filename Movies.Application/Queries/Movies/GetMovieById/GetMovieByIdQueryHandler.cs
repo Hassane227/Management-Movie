@@ -3,6 +3,8 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Movies.Contracts.Responses;
 using Movies.Infrastructure;
+using Movies.Contracts.Exceptions;
+using Movies.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +28,7 @@ namespace Movies.Application.Queries.Movies.GetMovieById
             var movie = await _MovieDbContext.Movies.FirstOrDefaultAsync(m=> m.Id == request.Id,cancellationToken);
             if(movie is null)
             {
-             throw new Exception("Movie not found");
+             throw new NotFoundException($"{nameof(Movie)} with {nameof(Movie.Id)}: {nameof(request.Id)}"+$"was not found in database");
             
             }
 

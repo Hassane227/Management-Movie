@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace Movies.Application.commands.Movies.deleteMovie
 {
-    public  class deleteMovieValidator: AbstractValidator<deleteMovieCommand>
+    public  class deleteMovieCommandValidator: AbstractValidator<deleteMovieCommand>
     {
-        public deleteMovieValidator() {
+        public deleteMovieCommandValidator() {
 
             RuleFor(x => x.id).NotEmpty()
                 .WithMessage($"{nameof(Movie.Id)}").NotEmpty()
