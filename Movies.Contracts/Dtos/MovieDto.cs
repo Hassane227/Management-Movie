@@ -10,6 +10,7 @@ namespace Movies.Contracts.Dtos
         int Id,
         string? Title,
         string? Description,
-        string? Category);
+        string? Category,
+        DateTime? CreateDate);
    
 }

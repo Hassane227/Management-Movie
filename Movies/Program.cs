@@ -15,6 +15,11 @@ builder.Services.AddDbContext<MoviesDbContext>(options =>
   options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
   b => b.MigrationsAssembly("Movies.Infrastructure")
   ));
+// il faut toujours ajouter le service de cors avant les autres services et aussi pour authoriser les requetes du frontend 
+builder.Services.AddCors(p => p.AddPolicy("CorsPolicy",
+    p => 
+p.SetIsOriginAllowed(_ => true).AllowAnyHeader().AllowAnyMethod().AllowCredentials()
+));  
 builder.Services.AddApplication();
 builder.Services.AddExceptionHandler<ExceptionHandler>();
 
@@ -29,7 +34,7 @@ if (app.Environment.IsDevelopment())
 }
 app.UseExceptionHandler(_ => { });
 app.UseHttpsRedirection();
-
+app.UseCors("CorsPolicy");
 app.UseAuthorization();
 
 app.MapControllers();
